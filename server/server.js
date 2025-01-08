@@ -23,7 +23,7 @@ app.use(cookieParser())
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL, // Your frontend URL
+    origin: true, // Allow both deployed and local frontend
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
