@@ -25,14 +25,17 @@ const Login = () => {
         try {
             const API_URL = process.env.REACT_APP_API_URL;
             const response = await axios.post(`${API_URL}/api/admin/login`, formData, {
-                withCredentials: true // Add this line
+                withCredentials: true
             });
 
             if (response.data.token) {
-                // Add console log to verify token received
                 console.log('Login successful, received token');
+<<<<<<< HEAD
                 Cookies.set('jwtCookie', response.data.token, { expires: 7, secure: true }); // Set cookie to expire in 7 days
 
+=======
+                console.log(token);
+>>>>>>> master
                 navigate('/admin');
             }
         } catch (error) {

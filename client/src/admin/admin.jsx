@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import Cookies from 'js-cookie';
 
 import axios from 'axios';
 import {
@@ -28,6 +27,11 @@ const AdminPropertyManager = () => {
     const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
     const navigate = useNavigate();
 
+    // Retrieve token from local storage
+    const token = localStorage.getItem('token');
+
+
+
     // State variables
     const [properties, setProperties] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
@@ -45,37 +49,16 @@ const AdminPropertyManager = () => {
     const [selectedPropertyId, setSelectedPropertyId] = useState(null);
 
     const axiosInstance = axios.create({
-        baseURL: API_URL,
+        baseURL: process.env.REACT_APP_API_URL,
         withCredentials: true, // Add this line
         headers: {
             'Content-Type': 'application/json',
-
-        }
-    });
+            'Authorization': `Bearer ${token}`,
 
 
-    // Add an interceptor to always add the latest token
-    axiosInstance.interceptors.request.use((config) => {
-        const token = Cookies.get('jwtCookie');
-        console.log("token", token);
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    }, (error) => {
-        return Promise.reject(error);
-    });
-
-
-    axiosInstance.interceptors.response.use(
-        (response) => response,
-        (error) => {
-            if (error.response?.status === 401) {
-                // Redirect to login or handle unauthorized access
-                navigate('/login');
-            }
-            return Promise.reject(error);
-        }
+        },
+        timeout: 1000,
+    }
     );
 
 
@@ -173,10 +156,7 @@ const AdminPropertyManager = () => {
     const handleDelete = async (propertyId) => {
         if (!window.confirm("Are you sure you want to delete this property?")) return;
 
-
         try {
-            const token = Cookies.get('jwtCookie');
-            console.log("token", token);
             setLoading(true);
             await axiosInstance.delete(`/api/property/${propertyId}`);
 
