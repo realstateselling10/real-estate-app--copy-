@@ -23,7 +23,7 @@ app.use(cookieParser())
 
 app.use(
   cors({
-    origin: true, // Allow both deployed and local frontend
+    origin: ['https://client-two-teal-20.vercel.app', 'http://localhost:3000',process.env.CLIENT_URL],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
