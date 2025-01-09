@@ -138,12 +138,28 @@ export const getProperties = async (req, res) => {
   }
 }
 
+
 //front end for any one
 export const getAllProperties = async (req, res) => {
   try {
+    // Add lean() for better performance and limit fields
     const properties = await Property.find()
-    res.json(properties)
+      .select('title description price location size images status')
+      .lean()
+      .limit(20) // Limit to 20 properties at a time
+      .exec();
+
+    if (!properties || properties.length === 0) {
+      return res.status(404).json({ message: 'No properties found' });
+    }
+
+    res.json(properties);
   } catch (error) {
-    res.status(500).json({ error: error.message })
+    console.error('Error fetching properties:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch properties',
+      details: error.message 
+    });
   }
 }
+
