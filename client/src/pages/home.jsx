@@ -16,8 +16,7 @@ const PropertyList = () => {
                 const response = await axios.get(`${API_URL}/api/property`, {
                     withCredentials: true,
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': 'https://client-two-teal-20.vercel.app'
+                        'Content-Type': 'application/json'
                     }
                 });
                 console.log('Fetched properties:', response.data);
@@ -29,6 +28,7 @@ const PropertyList = () => {
 
         fetchProperties();
     }, []);
+
 
     const handleViewDetails = (propertyId) => {
         navigate(`/property/${propertyId}`);
