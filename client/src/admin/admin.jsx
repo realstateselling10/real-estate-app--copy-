@@ -27,6 +27,11 @@ const AdminPropertyManager = () => {
     const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
     const navigate = useNavigate();
 
+    // Retrieve token from local storage
+    const token = localStorage.getItem('token');
+
+
+
     // State variables
     const [properties, setProperties] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
@@ -44,12 +49,17 @@ const AdminPropertyManager = () => {
     const [selectedPropertyId, setSelectedPropertyId] = useState(null);
 
     const axiosInstance = axios.create({
-        baseURL: API_URL,
+        baseURL: process.env.REACT_APP_API_URL,
         withCredentials: true, // Add this line
         headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+
+
+        },
+        timeout: 1000,
+    }
+    );
 
 
 
@@ -95,7 +105,7 @@ const AdminPropertyManager = () => {
 
                         try {
                             let uniquePublicId = `${uniqueId}-${index++}`;
-                            const uploadResponse = await axiosInstance.post(`${API_URL}/api/property/upload/${uniquePublicId}`, {
+                            const uploadResponse = await axiosInstance.post(`/api/property/upload/${uniquePublicId}`, {
                                 data: imageData
                             });
                             processedImages.push(uploadResponse.data.url);
@@ -114,10 +124,10 @@ const AdminPropertyManager = () => {
             }
 
             if (formMode === "add") {
-                await axiosInstance.post(`${API_URL}/api/property/create`, propertyData);
+                await axiosInstance.post(`/api/property/create`, propertyData);
             } else {
 
-                await axiosInstance.put(`${API_URL}/api/property/${selectedPropertyId}`, propertyData);
+                await axiosInstance.put(`/api/property/${selectedPropertyId}`, propertyData);
             }
 
             // Refresh properties list
@@ -148,7 +158,7 @@ const AdminPropertyManager = () => {
 
         try {
             setLoading(true);
-            await axiosInstance.delete(`${API_URL}/api/property/${propertyId}`);
+            await axiosInstance.delete(`/api/property/${propertyId}`);
 
             // Refresh properties list after deletion
             const response = await axiosInstance.get('/api/property');

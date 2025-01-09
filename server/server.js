@@ -26,13 +26,14 @@ app.use(
     origin: 'https://client-two-teal-20.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: [
+    allowedHeaders: [
       'Content-Type',
       'Authorization',
       'X-Requested-With',
       'Accept',
       'Origin'
-    ]  })
+    ]
+  })
 )
 
 //Routes
@@ -40,7 +41,17 @@ app.use('/api/admin', adminRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/property', propertyRoutes)
 
-app.listen(Port, () => {
-  console.log(`Server is running on ${Port}`)
-  connectDB()
-})
+// Connect to database and start server
+const startServer = async () => {
+  try {
+    await connectDB()
+    app.listen(Port, () => {
+      console.log(`Server is running on ${Port}`)
+    })
+  } catch (error) {
+    console.error(`Error starting server: ${error.message}`)
+    process.exit(1)
+  }
+}
+
+startServer()
