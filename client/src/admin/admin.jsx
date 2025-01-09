@@ -49,12 +49,33 @@ const AdminPropertyManager = () => {
         withCredentials: true, // Add this line
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${Cookies.get('jwtCookie')}` // Add this line
 
         }
     });
 
-    // 'Authorization': `Bearer ${Cookies.get('jwtCookie')}` // Add this line
+
+    // Add an interceptor to always add the latest token
+    axiosInstance.interceptors.request.use((config) => {
+        const token = Cookies.get('jwtCookie');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    }, (error) => {
+        return Promise.reject(error);
+    });
+
+
+    axiosInstance.interceptors.response.use(
+        (response) => response,
+        (error) => {
+            if (error.response?.status === 401) {
+                // Redirect to login or handle unauthorized access
+                navigate('/login');
+            }
+            return Promise.reject(error);
+        }
+    );
 
 
 
