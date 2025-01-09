@@ -48,7 +48,6 @@ const AdminPropertyManager = () => {
         withCredentials: true, // Add this line
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${Cookies.get('jwtCookie')}` // Add this line
         }
     });
 
