@@ -173,6 +173,9 @@ const AdminPropertyManager = () => {
     const handleDelete = async (propertyId) => {
         if (!window.confirm("Are you sure you want to delete this property?")) return;
 
+        const token = Cookies.get('jwtCookie');
+        console.log("token", token);
+
         try {
             setLoading(true);
             await axiosInstance.delete(`/api/property/${propertyId}`);
