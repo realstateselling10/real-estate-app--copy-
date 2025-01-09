@@ -30,8 +30,13 @@ const Login = () => {
 
             if (response.data.token) {
                 // Add console log to verify token received
+<<<<<<< HEAD
                 console.log('Login successful, token:', response.data.token);
                 Cookies.set('jwtCookie', response.data.token, { expires: 7, secure: true }); // Set cookie to expire in 7 days
+=======
+                Cookies.set('jwtCookie', response.data.token, { expires: 7, secure: true }); // Set cookie to expire in 7 days
+            
+>>>>>>> dca69a6ce9014a4150458f961b2cf8b22a741ba9
                 navigate('/admin');
             }
         } catch (error) {
