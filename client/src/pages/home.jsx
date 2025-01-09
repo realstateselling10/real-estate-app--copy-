@@ -10,14 +10,17 @@ const PropertyList = () => {
     const navigate = useNavigate();
     const [properties, setProperties] = useState([]);
 
-
     useEffect(() => {
         const fetchProperties = async () => {
             try {
-                const response = await axios.get(`${API_URL}/api/property`);
+                const response = await axios.get(`${API_URL}/api/property`, {
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': 'https://client-two-teal-20.vercel.app'
+                    }
+                });
                 console.log('Fetched properties:', response.data);
-
-
                 setProperties(response.data);
             } catch (error) {
                 console.error('Error fetching properties:', error);
