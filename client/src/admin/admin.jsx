@@ -100,7 +100,7 @@ const AdminPropertyManager = () => {
 
                         try {
                             let uniquePublicId = `${uniqueId}-${index++}`;
-                            const uploadResponse = await axiosInstance.post(`${API_URL}/api/property/upload/${uniquePublicId}`, {
+                            const uploadResponse = await axiosInstance.post(`/api/property/upload/${uniquePublicId}`, {
                                 data: imageData
                             });
                             processedImages.push(uploadResponse.data.url);
@@ -119,10 +119,10 @@ const AdminPropertyManager = () => {
             }
 
             if (formMode === "add") {
-                await axiosInstance.post(`${API_URL}/api/property/create`, propertyData);
+                await axiosInstance.post(`/api/property/create`, propertyData);
             } else {
 
-                await axiosInstance.put(`${API_URL}/api/property/${selectedPropertyId}`, propertyData);
+                await axiosInstance.put(`/api/property/${selectedPropertyId}`, propertyData);
             }
 
             // Refresh properties list
@@ -153,7 +153,7 @@ const AdminPropertyManager = () => {
 
         try {
             setLoading(true);
-            await axiosInstance.delete(`${API_URL}/api/property/${propertyId}`);
+            await axiosInstance.delete(`/api/property/${propertyId}`);
 
             // Refresh properties list after deletion
             const response = await axiosInstance.get('/api/property');
