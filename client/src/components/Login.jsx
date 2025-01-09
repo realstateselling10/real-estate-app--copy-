@@ -30,6 +30,7 @@ const Login = () => {
             if (response.data.token) {
                 // Add console log to verify token received
                 console.log('Login successful, received token');
+                console.log('Token:', response.data.token);
                 navigate('/admin');
             }
         } catch (error) {
