@@ -9,6 +9,7 @@ const PropertyList = () => {
     const { isDarkMode } = useTheme();
     const navigate = useNavigate();
     const [properties, setProperties] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchProperties = async () => {
@@ -19,20 +20,19 @@ const PropertyList = () => {
                         'Content-Type': 'application/json'
                     }
                 });
-                console.log('Fetched properties:', response.data);
                 setProperties(response.data);
-            } catch (error) {
-                console.error('Error fetching properties:', error);
+            } catch (err) {
+                console.error('Error fetching properties:', err);
+                setError(err.message);
             }
         };
 
         fetchProperties();
-    }, []);
+    }, [API_URL]);
 
-
-    const handleViewDetails = (propertyId) => {
-        navigate(`/property/${propertyId}`);
-    };
+    if (error) {
+        return <div>Error fetching properties: {error}</div>;
+    }
 
     return (
         <div className={`min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200
