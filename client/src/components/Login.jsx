@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'; import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from "react-router-dom";  // Use useNavigate instead of Navigate
+import Cookies from 'js-cookie';
 
 const Login = () => {
     const { isDarkMode } = useTheme();
@@ -30,7 +31,8 @@ const Login = () => {
             if (response.data.token) {
                 // Add console log to verify token received
                 console.log('Login successful, received token');
-                console.log('Token:', response.data.token);
+                Cookies.set('jwtCookie', response.data.token, { expires: 7, secure: true, sameSite: 'Strict' }); // Set cookie to expire in 7 days
+
                 navigate('/admin');
             }
         } catch (error) {
