@@ -12,18 +12,24 @@ const PropertyList = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchProperties = async () => {
+        const fetchProperties = async (retryCount = 3) => {
             try {
                 const response = await axios.get(`${API_URL}/api/property`, {
                     withCredentials: true,
                     headers: {
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    timeout: 10000 // Set timeout to 10 seconds
                 });
                 setProperties(response.data);
             } catch (err) {
-                console.error('Error fetching properties:', err);
-                setError(err.message);
+                if (retryCount > 0) {
+                    console.warn('Retrying fetch properties:', retryCount);
+                    fetchProperties(retryCount - 1);
+                } else {
+                    console.error('Error fetching properties:', err);
+                    setError(err.message);
+                }
             }
         };
 

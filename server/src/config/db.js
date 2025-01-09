@@ -1,10 +1,8 @@
 import mongoose from 'mongoose'
 
 const connectDB = async () => {
-  try {
-    // Enable mongoose debug mode in development
-    mongoose.set('debug', process.env.NODE_ENV === 'development')
-
+    try {
+      
     const conn = await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
