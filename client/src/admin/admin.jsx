@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import Cookies from 'js-cookie';
 
 import axios from 'axios';
 import {
@@ -48,6 +49,8 @@ const AdminPropertyManager = () => {
         withCredentials: true, // Add this line
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${Cookies.get('jwtCookie')}` // Add this line
+
         }
     });
 
