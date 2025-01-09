@@ -44,8 +44,8 @@ router.post('/upload/:id', async (req, res) => {
 
 router.get('/', getAllProperties)
 router.get('/:id', getProperties)
-router.post('/create', protectRoute, adminOnly, createProperty)
+router.post('/create', protectRoute, createProperty)
 router.put('/:id', protectRoute, updateProperty)
-router.delete('/:id', protectRoute, adminOnly, deleteProperty)
+router.delete('/:id', protectRoute, deleteProperty)
 
 export default router
