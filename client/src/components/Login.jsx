@@ -29,7 +29,7 @@ const Login = () => {
 
             if (response.data.token) {
                 console.log('Login successful, received token');
-                localStorage.setItem('token', response.data.token);
+                console.log(token);
                 navigate('/admin');
             }
         } catch (error) {
