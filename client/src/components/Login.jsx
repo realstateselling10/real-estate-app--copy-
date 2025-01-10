@@ -30,12 +30,7 @@ const Login = () => {
 
             if (response.data.token) {
                 console.log('Login successful, received token');
-<<<<<<< HEAD
                 Cookies.set('jwtCookie', response.data.token, { expires: 7, secure: true }); // Set cookie to expire in 7 days
-
-=======
-                console.log(token);
->>>>>>> master
                 navigate('/admin');
             }
         } catch (error) {
