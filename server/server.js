@@ -23,7 +23,7 @@ app.use(cookieParser())
 
 app.use(
   cors({
-    origin: 'https://client-two-teal-20.vercel.app',
+    origin: 'https://client-final-ten.vercel.app',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: [
